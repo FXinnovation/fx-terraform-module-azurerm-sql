@@ -12,11 +12,6 @@ variable "resource_group_name" {
   type        = string
 }
 
-variable "location" {
-  description = "Location of the SQL server"
-  type        = string
-}
-
 variable "tags" {
   description = "Tags shared by all resources of this module. Will be merged with any other specific tags by resource"
   default     = {}
@@ -26,34 +21,51 @@ variable "tags" {
 # SQL server
 ###
 
+variable "sql_server_count" {
+  description = "The number of SQL server this module will create. `REQUIRED`"
+  default     = 1
+}
+
 variable "sql_server_names" {
-  description = "The list of name of the SQL Server. This needs to be globally unique within Azure."
+  description = "The list of name of the SQL Server. This needs to be globally unique within Azure.`REQUIRED`"
   type        = list(string)
-  default     = [""]
+  default     = []
+}
+
+variable "sql_server_locations" {
+  description = "Location of the SQL server. `REQUIRED`"
+  type        = list(string)
+  default     = []
 }
 
 variable "sql_server_versions" {
-  description = "The list of versions for the new server.Vaild vaules are `2.0`(for v11 server) and `12.0`(for v12 server)."
+  description = "The list of versions for the new server.Vaild vaules are `2.0`(for v11 server) and `12.0`(for v12 server).`REQUIRED`"
   type        = list(string)
-  default     = [""]
+  default     = []
 }
 
-variable "sql_server_administrator_login" {
-  description = "The list of administrator login name for the new server. Changing this forces a new resource to be created."
+variable "sql_server_administrator_logins" {
+  description = "The list of administrator login name for the new server. Changing this forces a new resource to be created.`REQUIRED`"
   type        = list(string)
-  default     = [""]
+  default     = []
 }
 
-variable "sql_server_administrator_login_password" {
-  description = "List of password associated with the administrator_login user. Needs to comply with Azure's `Password Policy` https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?redirectedfrom=MSDN&view=sql-server-ver15"
+variable "sql_server_administrator_login_passwords" {
+  description = "List of password associated with the administrator_login user. Needs to comply with Azure's `Password Policy` https://docs.microsoft.com/en-us/sql/relational-databases/security/password-policy?redirectedfrom=MSDN&view=sql-server-ver15  `REQUIRED`"
   type        = list(string)
-  default     = [""]
+  default     = []
+}
+
+variable "identity_type_enabled" {
+  description = "Boolean flag which describes whether or not to enabled the identity block"
+  type        = list(bool)
+  default     = [false]
 }
 
 variable "identity_type" {
   description = "Specifies the identity type of the SQL server. At this time the only allowed value is `SystemAssigned`. "
-  type        = list(string)
-  default     = [""]
+  type        = string
+  default     = "SystemAssigned"
 }
 
 variable "sql_server_tags" {
@@ -65,10 +77,38 @@ variable "sql_server_tags" {
 # SQL database
 ###
 
+variable "sql_databases_enabled" {
+  description = "Boolean flag which describes whether or not to create the SQL databases."
+  default     = false
+}
+
+variable "sql_database_count" {
+  description = "The number of databases this module will be creating. If enabled value is `REQUIRED`"
+  default     = 1
+}
+
 variable "sql_database_names" {
-  description = "The list of names of databases which will b created."
+  description = "The list of databases which will b created.If enabled value is `REQUIRED`"
+  type        = list(string)
+  default     = []
+}
+
+variable "sql_database_locations" {
+  description = "the list of names of the SQL database locations where it will  be created.Chaning this will force to create new resource.If enabled value is `REQUIRED`"
   type        = list(string)
   default     = [""]
+}
+
+variable "sql_database_server_names" {
+  description = "The liat of SQL server names under which the database will be created. Changing this foreces a new resource to be created.If enabled value is `REQUIRED`"
+  type        = list(string)
+  default     = []
+}
+
+variable "sql_database_create_modes" {
+  description = " Specifies how to create the database. Valid values are: Default, Copy, OnlineSecondary, NonReadableSecondary, PointInTimeRestore, Recovery, Restore or RestoreLongTermRetentionBackup. Must be Default to create a new database. Defaults to Default. Please see Azure SQL Database REST API. https://docs.microsoft.com/en-us/rest/api/sql/databases/createorupdate#createmode. If enabled value is `REQUIRED`"
+  type        = list(string)
+  default     = ["Default"]
 }
 
 variable "sql_source_database_ids" {
@@ -77,16 +117,21 @@ variable "sql_source_database_ids" {
   default     = [""]
 }
 
-variable "sql_database_restore_point_in_time" {
+variable "sql_database_restore_point_in_times" {
   description = "List which specifies point in time for the restore. Only applies if `create_mode` is `PointInTimeRestore` e.g. `2013-11-08T22:00:40Z`."
   type        = list(string)
   default     = [""]
 }
 
+variable "sql_database_default_restore_point_in_time" {
+  description = "Default restore point in time for the SQL database when creation mode is not `PoinInTime`"
+  default     = "2020-01-02T15:04:05Z"
+}
+
 variable "sql_database_editions" {
   description = "The list of  edition of the database to be created. Applies only if create_mode is Default. Valid values are: `Basic`, `Standard`, `Premium`, `DataWarehouse`, `Business`, `BusinessCritical`, `Free`, `GeneralPurpose`, `Hyperscale`, `Premium`, `PremiumRS`, `Standard`, `Stretch`, `System`, `System2`, or `Web`. Please see Azure SQL Database Service Tiers. https://docs.microsoft.com/en-us/azure/sql-database/sql-database-purchase-models"
   type        = list(string)
-  default     = [""]
+  default     = ["GeneralPurpose"]
 }
 
 variable "sql_database_collation" {
@@ -102,21 +147,26 @@ variable "sql_database_max_size_bytes" {
 }
 
 variable "sql_database_requested_service_objective_id" {
-  description = "A list of GUID/UUID corresponding to a configured Service Level Objective for the Azure SQL database which can be used to configure a performance level."
+  description = "A list of GUID/UUID corresponding to a configured Service Level Objective for the Azure SQL database which can be used to configure a performance level.The default is for `West Us` location. Please check https://docs.microsoft.com/en-us/cli/azure/sql/db?view=azure-cli-latest#az-sql-db-list-editions link for the supported GUIDS in respective locations."
   type        = list(string)
-  default     = [""]
+  default     = ["3d6269f6-9ca1-4192-a947-5bff42c8c2aa"]
 }
 
 variable "sql_database_requested_service_objective_name" {
   description = "The service objective name for the database. Valid values depend on edition and location and may include `S0`, `S1`, `S2`, `S3`, `P1`, `P2`, `P4`, `P6`, `P11` and `ElasticPool`. You can list the available names with the cli: `shell az sql db list-editions -l westus --edition Standard -o table`. For further information please see Azure CLI - az sql db. https://docs.microsoft.com/en-us/cli/azure/sql/db?view=azure-cli-latest#az-sql-db-list-editions"
   type        = list(string)
-  default     = [""]
+  default     = ["GP_S_Gen5_2"]
 }
 
-variable "sql_source_database_deletion_date" {
+variable "sql_source_database_deletion_dates" {
   description = "List which specifies the deletion date time of the source database. Only applies to deleted databases where `create_mode` is `PointInTimeRestore`."
   type        = list(string)
   default     = [""]
+}
+
+variable "sql_source_database_default_deletion_date" {
+  description = "Default source database deletion date for the SQL database when creation mode is not `PoinInTime`"
+  default     = "2020-01-02T15:04:05Z"
 }
 
 variable "sql_database_elastic_pool_names" {
@@ -127,19 +177,26 @@ variable "sql_database_elastic_pool_names" {
 
 variable "sql_database_read_scale" {
   description = "Read-only connections will be redirected to a high-available replica. Please see https://docs.microsoft.com/en-us/azure/sql-database/sql-database-read-scale-out."
-  type        = list(string)
-  default     = [""]
+  type        = list(bool)
+  default     = [false]
 }
 
 variable "sql_database_zone_redundant" {
   description = "Whether or not this database is zone redundant, which means the replicas of this database will be spread across multiple availability zones."
-  type        = list(string)
-  default     = [""]
+  type        = list(bool)
+  default     = [false]
+}
+
+variable "sql_database_import_enabled" {
+  description = "Boolean flag which describes whether the database is imported from .bacpc file or creating new database."
+  type        = list(bool)
+  default     = [false]
 }
 
 variable "import_storage_uri" {
   description = "List which specifies the blob URIs of the `.bacpac` file."
   type        = list(string)
+  default     = [""]
 }
 
 variable "import_storage_key" {
@@ -151,7 +208,7 @@ variable "import_storage_key" {
 variable "import_storage_key_type" {
   description = "List which specifies the type of access key for the storage account. Valid values are `StorageAccessKey` or `SharedAccessKey`."
   type        = list(string)
-  default     = [""]
+  default     = ["SharedAccessKey"]
 }
 
 variable "import_administrator_login" {
@@ -169,12 +226,18 @@ variable "import_administrator_login_password" {
 variable "import_authentication_type" {
   description = "Specifies the type of authentication used to access the server. Valid values are `SQL` or `ADPassword`."
   type        = list(string)
-  default     = [""]
+  default     = ["SQL"]
 }
 
 variable "import_creation_mode" {
   description = "Specifies the type of import operation being performed. The only allowable value is `Import`."
   default     = "Import"
+}
+
+variable "threat_detection_policy_enabled" {
+  description = "List of boolean flags which describes the threat detection policy block to be enabled or not."
+  type        = list(bool)
+  default     = [false]
 }
 
 variable "threat_detection_policy_state" {
@@ -189,37 +252,37 @@ variable "threat_detection_policy_disabled_alerts" {
   default     = [null]
 }
 
-variable "email_account_admins" {
-  description = "List which descsibes should the account administrators be emailed when this alert is triggered? ."
+variable "threat_detection_policy_email_account_admins" {
+  description = "List which descsibes should the account administrators be emailed when this alert is triggered?. Possible values are `Enabled`, `Disabled`"
   type        = list(string)
-  default     = [""]
+  default     = ["Disabled"]
 }
 
-variable "email_addresses" {
+variable "threat_detection_policy_email_addresses" {
   description = "A list of email addresses which alerts should be sent to."
   type        = list(list(string))
   default     = [null]
 }
 
-variable "retention_days" {
+variable "threat_detection_policy_retention_days" {
   description = "A list specifies the number of days to keep in the Threat Detection audit logs."
   type        = list(number)
   default     = [10]
 }
 
-variable "storage_account_access_key" {
+variable "threat_detection_policy_storage_account_access_key" {
   description = " Specifies the identifier key of the Threat Detection audit storage account. Required if `state` is `Enabled`."
   type        = list(string)
   default     = [""]
 }
 
-variable "storage_endpoint" {
+variable "threat_detection_policy_storage_endpoint" {
   description = "Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. Required if `state` is `Enabled`."
   type        = list(string)
   default     = [""]
 }
 
-variable "use_server_default" {
+variable "threat_detection_policy_use_server_default" {
   description = "List which provides the information about should the default server policy be used? Defaults to `Disabled`."
   type        = list(string)
   default     = ["Disabled"]
@@ -234,20 +297,36 @@ variable "sql_database_tags" {
 # SQL firewall rule
 ###
 
-variable "sql_firewall_rule_name" {
-  description = "Names of the firewall rules."
+variable "sql_firewall_rule_enabled" {
+  description = "Boolean flag which describes whether or not create SQL firewall rule."
+  default     = false
+}
+
+variable "sql_firewall_rule_count" {
+  description = "The number of firewall rules we would like to create."
+  default     = 1
+}
+
+variable "sql_firewall_rule_names" {
+  description = "Names of the firewall rules.If enabled value is `REQUIRED`"
+  type        = list(string)
+  default     = [""]
+}
+
+variable "sql_firewall_rule_server_names" {
+  description = "the list of names of the SQL server under which the firewall rules will be created. Changing this will force to create new resource.If enabled value is `REQUIRED`"
   type        = list(string)
   default     = [""]
 }
 
 variable "sql_firewall_rule_start_ip_address" {
-  description = "List of starting IP address to allow through the firewall for this rule."
+  description = "List of starting IP address to allow through the firewall for this rule.If enabled value is `REQUIRED`"
   type        = list(string)
   default     = [""]
 }
 
 variable "sql_firewall_rule_end_ip_address" {
-  description = "The list of ending IP address to allow through the firewall for this rule."
+  description = "The list of ending IP address to allow through the firewall for this rule.If enabled value is `REQUIRED`"
   type        = list(string)
   default     = [""]
 }
@@ -255,59 +334,81 @@ variable "sql_firewall_rule_end_ip_address" {
 ###
 # MSSQL elastic pool
 ###
+variable "mssql_elasticpool_enabled" {
+  description = "Boolean flag which describes whether or not to enable the elaticpool."
+  default     = false
+}
 
-variable "elastic_pool_names" {
-  description = "Names of the elastic pool. This needs to be globally unique. Changing this forces a new resource to be created."
+variable "mssql_elastic_pool_names" {
+  description = "Names of the elastic pool. This needs to be globally unique. Changing this forces a new resource to be created.If enabled value is `REQUIRED`"
   type        = list(string)
   default     = [""]
 }
 
-variable "elastic_pool_max_size_gb" {
+variable "mssql_elastic_pool_locations" {
+  description = "the list of names of the SQL server under which the elastic pool will be created. Changing this will force to create new resource.If enabled value is `REQUIRED`"
+  type        = list(string)
+  default     = [""]
+}
+
+variable "mssql_elastic_pool_server_names" {
+  description = "The liat of SQL server names under which the elastic pool will be created. Changing this foreces a new resource to be created.If enabled value is `REQUIRED`"
+  type        = list(string)
+  default     = []
+}
+
+variable "mssql_elastic_pool_max_size_gb" {
   description = "The list of max data size of the elastic pool in gigabytes. Conflicts with `max_size_bytes`."
   type        = list(number)
   default     = [10]
 }
 
-variable "elastic_pool_max_size_bytes" {
-  description = " The max data size of the elastic pool in bytes. Conflicts with `max_size_gb`."
+variable "mssql_elastic_pool_max_size_bytes" {
+  description = "The max data size of the elastic pool in bytes. Conflicts with `max_size_gb`."
   type        = list(number)
-  default     = [512]
+  default     = [10737418240]
 }
 
-variable "elastic_pool_sku_name" {
-  description = "The names of the SKUs for the elastic pool. The name of the SKU, will be either `vCore` based `tier` + `family` pattern (e.g. GP_Gen4, BC_Gen5) or the `DTU` based `BasicPool`, `StandardPool`, or `PremiumPool` pattern."
+variable "mssql_elastic_pool_zone_redundant" {
+  description = "Whether or not this elastic pool is zone redundant. `tier` needs to be `Premium` for `DTU` based or `BusinessCritical` for `vCore` based `sku`. Defaults to `false`."
+  type        = list(bool)
+  default     = [false]
+}
+
+variable "mssql_elastic_pool_sku_name" {
+  description = "The names of the SKUs for the elastic pool. The name of the SKU, will be either `vCore` based `tier` + `family` pattern (e.g. GP_Gen4, BC_Gen5) or the `DTU` based `BasicPool`, `StandardPool`, or `PremiumPool` pattern.If enabled value is `REQUIRED`"
   type        = list(string)
   default     = [""]
 }
 
-variable "elastic_pool_sku_capacity" {
-  description = "The scale up/out capacity, representing server's compute units. For more information see the documentation for your Elasticpool configuration: `vCore-based` (https://docs.microsoft.com/en-us/azure/sql-database/sql-database-vcore-resource-limits-elastic-pools) or `DTU-based`(https://docs.microsoft.com/en-us/azure/sql-database/sql-database-dtu-resource-limits-elastic-pools)."
-  type        = list(string)
-  default     = [""]
-}
-
-variable "elastic_pool_sku_tier" {
-  description = "The tier of the particular SKU. Possible values are `GeneralPurpose`, `BusinessCritical`, `Basic`, `Standard`, or `Premium`. For more information see the documentation for your Elasticpool configuration: `vCore-based` or `DTU-based`."
-  type        = list(string)
-  default     = [""]
-}
-
-variable "elastic_pool_sku_family" {
-  description = " The family of hardware `Gen4` or `Gen5`."
-  type        = list(string)
-  default     = ["Gen4"]
-}
-
-variable "min_capacity" {
-  description = "The minimum capacity all databases are guaranteed."
+variable "mssql_elastic_pool_sku_capacity" {
+  description = "The scale up/out capacity, representing server's compute units. For more information see the documentation for your Elasticpool configuration: `vCore-based` (https://docs.microsoft.com/en-us/azure/sql-database/sql-database-vcore-resource-limits-elastic-pools) or `DTU-based`(https://docs.microsoft.com/en-us/azure/sql-database/sql-database-dtu-resource-limits-elastic-pools). If enabled value is `REQUIRED`"
   type        = list(number)
   default     = [2]
 }
 
-variable "max_capacity" {
-  description = "The maximum capacity any one database can consume."
+variable "mssql_elastic_pool_sku_tier" {
+  description = "The tier of the particular SKU. Possible values are `GeneralPurpose`, `BusinessCritical`, `Basic`, `Standard`, or `Premium`. For more information see the documentation for your Elasticpool configuration: `vCore-based` or `DTU-based`.If enabled value is `REQUIRED`"
+  type        = list(string)
+  default     = ["GeneralPurpose"]
+}
+
+variable "mssql_elastic_pool_sku_family" {
+  description = " The family of hardware `Gen4` or `Gen5`."
+  type        = list(string)
+  default     = ["Gen5"]
+}
+
+variable "per_database_settings_min_capacity" {
+  description = "The minimum capacity all databases are guaranteed.If enabled value is `REQUIRED`"
   type        = list(number)
-  default     = [4]
+  default     = [0]
+}
+
+variable "per_database_settings_max_capacity" {
+  description = "The maximum capacity any one database can consume.If enabled value is `REQUIRED`"
+  type        = list(number)
+  default     = [1]
 }
 
 variable "mssql_elastic_pool_tags" {
@@ -319,60 +420,116 @@ variable "mssql_elastic_pool_tags" {
 # SQL failover group
 ###
 
+variable "sql_failover_group_enabled" {
+  description = "Boolean flag which describes whether or not to enable the SQL failover group."
+  default     = false
+}
+
+variable "sql_failover_group_count" {
+  description = "The number of failover group the module will create."
+  default     = 1
+}
+
 variable "sql_failover_group_names" {
-  description = "The list of names  of the failover group. Changing this forces a new resource to be created."
+  description = "The list of names  of the failover group. Changing this forces a new resource to be created.If enabled value is `REQUIRED`"
   type        = list(string)
   default     = [""]
 }
 
-variable "sql_failover_group_databases" {
-  description = "List of database IDs to add to the failovr group."
+variable "sql_failover_group_server_names" {
+  description = "the list of names of the SQL server under for which the failover group will be created. Changing this will force to create new resource.If enabled value is `REQUIRED`"
+  type        = list(string)
+  default     = [""]
+}
+
+variable "sql_failover_group_databases_exist" {
+  description = "Boolean flag which describes whether the database already exist or not.If enabled value is `REQUIRED`"
+  type        = bool
+  default     = false
+}
+
+variable "sql_existing_database_ids" {
+  description = "A list of existing database IDs."
   type        = list(list(string))
   default     = [null]
+}
+
+variable "sql_database_id_start_indexes" {
+  description = "The list of start indexes(inclusive) which corresponds to the database ID.If enabled value is `REQUIRED`"
+  type        = list(number)
+  default     = [0]
+}
+
+variable "sql_database_id_end_indexes" {
+  description = "The list which corresponds  to the end index (exclusive) of the database ID. This value should not be greater than the length of SQL database names variable.If enabled value is `REQUIRED` "
+  type        = list(number)
+  default     = [1]
 }
 
 variable "partner_servers_ids" {
-  description = "A list of secondary SQL servers IDs."
-  type        = list(list(string))
+  description = "A list of secondary SQL servers IDs.If enabled value is `REQUIRED`"
+  type        = list(string)
   default     = [null]
 }
 
-variable "read_write_failover_policy_mode" {
-  description = "A read/write policy failover mode. Possible values are `Manual`, `Automatic`."
+variable "read_write_failover_policy_modes" {
+  description = "A read/write policy failover mode. Possible values are `Manual`, `Automatic`.If enabled value is `REQUIRED`"
   type        = list(string)
   default     = [""]
 }
 
 variable "read_write_failover_policy_grace_minutes" {
-  description = "Applies only if `mode` is `Automatic`. The list which specifies the grace period in minutes before failover with data loss is attempted."
+  description = "Applies only if `mode` is `Automatic`. The list which specifies the grace period in minutes before failover with data loss is attempted.If enabled value is `REQUIRED`"
   type        = list(number)
   default     = [30]
 }
 
-variable "readonly_failover_policy_mode" {
+variable "readonly_failover_policy_modes" {
   description = "A failover policy for the read-only endpoints.Possible values are `Enabled`, and `Disabled`."
   type        = list(string)
-  default     = [""]
+  default     = ["Disabled"]
 }
+
+variable "sql_failover_group_tags" {
+  description = "Tags which will be associated to the SQL failover groups."
+  default     = {}
+}
+
 
 ###
 # SQL vnet rule
 ###
 
+variable "sql_vnet_rule_count" {
+  description = "Number of VNET rules we would like create for the SQL server."
+  default     = 1
+}
+
+variable "sql_vnet_rule_enabled" {
+  description = "Boolean flag which describes whether or not to enable the SQL virtual network rule."
+  default     = false
+}
+
 variable "sql_vnet_rule_name" {
-  description = "The names of the SQL virtual network rule. Changing this forces a new resource to be created. Cannot be empty and must only contain alphanumeric characters and hyphens. Cannot start with a number, and cannot start or end with a hyphen."
+  description = "The names of the SQL virtual network rule. Changing this forces a new resource to be created. Cannot be empty and must only contain alphanumeric characters and hyphens. Cannot start with a number, and cannot start or end with a hyphen.If enabled value is `REQUIRED`"
+  type        = list(string)
+  default     = [""]
+}
+
+variable "sql_vnet_rule_server_names" {
+  description = "the list of names of the SQL server under which the VNET rules will be created. Changing this will force to create new resource.If enabled value is `REQUIRED`"
   type        = list(string)
   default     = [""]
 }
 
 variable "sql_vnet_subnet_id" {
-  description = "The IDs of the subnet that the SQL server will be connected to."
+  description = "The IDs of the subnet that the SQL server will be connected to.If enabled value is `REQUIRED`"
   type        = list(string)
   default     = [""]
 }
 
 variable "sql_ignore_missing_vnet_service_endpoint" {
-  description = "Creates the virtual network rule before the subnet has the virtual network service endpoint enabled. The default value is `false`."
+  description = "Creates the virtual network rule before the subnet has the virtual network service endpoint enabled. The default value is `false`. `NOTE: If ignore_missing_vnet_service_endpoint is false, and the target subnet does not contain the Microsoft.SQL endpoint in the service_endpoints array, the deployment will fail when it tries to create the SQL virtual network rule.`"
   type        = list(bool)
   default     = [false]
 }
@@ -381,14 +538,30 @@ variable "sql_ignore_missing_vnet_service_endpoint" {
 # SQL AD administrator
 ###
 
+variable "sql_ad_admin_count" {
+  description = "The numebr AD admins we would like to create for the SQL server."
+  default     = 1
+}
+
+variable "sql_ad_admin_enabled" {
+  description = "Boolean flag which describes whether or not to enable the SQL active directory administrator."
+  default     = false
+}
+
 variable "sql_ad_login_name" {
-  description = "The names of the SQL Server on which to set the administrator. Changing this forces a new resource to be created."
+  description = "The names of the SQL Server on which to set the administrator. Changing this forces a new resource to be created. If enabled value is `REQUIRED`"
+  type        = list(string)
+  default     = [""]
+}
+
+variable "sql_ad_admin_server_names" {
+  description = "the list of names of the SQL server for which AD administrator accounts will be created. Changing this will force to create new resource.If enabled value is `REQUIRED`"
   type        = list(string)
   default     = [""]
 }
 
 variable "object_ids" {
-  description = " The IDs of the principal to set as the server administrator"
+  description = " The IDs of the principal to set as the server administrator. If enabled value is `REQUIRED`"
   type        = list(string)
   default     = [""]
 }
