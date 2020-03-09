@@ -111,9 +111,9 @@ module "example" {
   read_write_failover_policy_grace_minutes = [60]
 
 
-  sql_vnet_rule_enabled                    = true
-  sql_vnet_rule_name                       = ["tftest-rule${random_string.this.result}"]
-  sql_vnet_rule_server_names               = ["tftest1${random_string.this.result}"]
-  sql_vnet_subnet_id                       = ["${azurerm_subnet.subnet.id}"]
-  sql_ignore_missing_vnet_service_endpoint = [true]
+  sql_vnet_rule_enabled                     = true
+  sql_vnet_rule_names                       = ["tftest-rule${random_string.this.result}"]
+  sql_vnet_rule_server_names                = ["tftest1${random_string.this.result}"]
+  sql_vnet_subnet_ids                       = ["${azurerm_subnet.subnet.id}"]
+  sql_ignore_missing_vnet_service_endpoints = [true]
 }

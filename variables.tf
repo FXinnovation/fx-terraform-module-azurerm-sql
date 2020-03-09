@@ -505,7 +505,7 @@ variable "sql_vnet_rule_enabled" {
   default     = false
 }
 
-variable "sql_vnet_rule_name" {
+variable "sql_vnet_rule_names" {
   description = "The names of the SQL virtual network rule. Changing this forces a new resource to be created. Cannot be empty and must only contain alphanumeric characters and hyphens. Cannot start with a number, and cannot start or end with a hyphen.If enabled value is `REQUIRED`"
   type        = list(string)
   default     = [""]
@@ -517,13 +517,13 @@ variable "sql_vnet_rule_server_names" {
   default     = [""]
 }
 
-variable "sql_vnet_subnet_id" {
+variable "sql_vnet_subnet_ids" {
   description = "The IDs of the subnet that the SQL server will be connected to.If enabled value is `REQUIRED`"
   type        = list(string)
   default     = [""]
 }
 
-variable "sql_ignore_missing_vnet_service_endpoint" {
+variable "sql_ignore_missing_vnet_service_endpoints" {
   description = "Creates the virtual network rule before the subnet has the virtual network service endpoint enabled. The default value is `false`. `NOTE: If ignore_missing_vnet_service_endpoint is false, and the target subnet does not contain the Microsoft.SQL endpoint in the service_endpoints array, the deployment will fail when it tries to create the SQL virtual network rule.`"
   type        = list(bool)
   default     = [false]

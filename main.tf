@@ -201,11 +201,11 @@ resource "azurerm_sql_failover_group" "this" {
 resource "azurerm_sql_virtual_network_rule" "this_vnet_rule" {
   count = local.should_create_sql_vnet_rule ? var.sql_vnet_rule_count : 0
 
-  name                                 = element(var.sql_vnet_rule_name, count.index)
+  name                                 = element(var.sql_vnet_rule_names, count.index)
   resource_group_name                  = var.resource_group_name
   server_name                          = var.sql_server_count > 1 ? lookup(local.sql_server_name, element(var.sql_vnet_rule_server_names, count.index), null) : element(concat(azurerm_sql_server.this.*.name, list("")), 0)
-  subnet_id                            = element(var.sql_vnet_subnet_id, count.index)
-  ignore_missing_vnet_service_endpoint = element(var.sql_ignore_missing_vnet_service_endpoint, count.index)
+  subnet_id                            = element(var.sql_vnet_subnet_ids, count.index)
+  ignore_missing_vnet_service_endpoint = element(var.sql_ignore_missing_vnet_service_endpoints, count.index)
 }
 
 ###

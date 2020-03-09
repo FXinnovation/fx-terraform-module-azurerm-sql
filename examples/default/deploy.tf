@@ -81,17 +81,17 @@ module "example" {
   sql_server_administrator_login_passwords = ["${azurerm_key_vault_secret.example.value}"]
 
 
-  mssql_elasticpool_enabled          = true
-  mssql_elastic_pool_names           = ["tftest-elasticpool${random_string.this.result}"]
-  mssql_elastic_pool_locations       = ["${azurerm_resource_group.example.location}"]
-  mssql_elastic_pool_server_names    = ["tftest1${random_string.this.result}"]
-  mssql_elastic_pool_sku_name        = ["GP_Gen5"]
-  mssql_elastic_pool_sku_capacity    = [2]
-  mssql_elastic_pool_sku_tier        = ["GeneralPurpose"]
-  mssql_elastic_pool_sku_family      = ["Gen5"]
-  mssql_elastic_pool_max_size_gb     = [10]
-  per_database_settings_min_capacity = [0]
-  per_database_settings_max_capacity = [1]
+  mssql_elasticpool_enabled            = true
+  mssql_elastic_pool_names             = ["tftest-elasticpool${random_string.this.result}"]
+  mssql_elastic_pool_locations         = ["${azurerm_resource_group.example.location}"]
+  mssql_elastic_pool_server_names      = ["tftest1${random_string.this.result}"]
+  mssql_elastic_pool_sku_names         = ["GP_Gen5"]
+  mssql_elastic_pool_sku_capacities    = [2]
+  mssql_elastic_pool_sku_tiers         = ["GeneralPurpose"]
+  mssql_elastic_pool_sku_families      = ["Gen5"]
+  mssql_elastic_pool_max_size_gbs      = [10]
+  per_database_settings_min_capacities = [0]
+  per_database_settings_max_capacities = [1]
 
   sql_databases_enabled     = true
   sql_database_count        = 1
@@ -99,9 +99,9 @@ module "example" {
   sql_database_locations    = ["${azurerm_resource_group.example.location}"]
   sql_database_server_names = ["tftest1${random_string.this.result}"]
 
-  sql_vnet_rule_enabled                    = true
-  sql_vnet_rule_name                       = ["tftest-rule${random_string.this.result}"]
-  sql_vnet_rule_server_names               = ["tftest1${random_string.this.result}"]
-  sql_vnet_subnet_id                       = ["${azurerm_subnet.subnet.id}"]
-  sql_ignore_missing_vnet_service_endpoint = [true]
+  sql_vnet_rule_enabled                     = true
+  sql_vnet_rule_names                       = ["tftest-rule${random_string.this.result}"]
+  sql_vnet_rule_server_names                = ["tftest1${random_string.this.result}"]
+  sql_vnet_subnet_ids                       = ["${azurerm_subnet.subnet.id}"]
+  sql_ignore_missing_vnet_service_endpoints = [true]
 }
