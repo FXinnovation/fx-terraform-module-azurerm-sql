@@ -50,8 +50,6 @@ resource "azurerm_sql_database" "this" {
   source_database_deletion_date    = element(var.sql_database_create_modes, count.index) == "PointInTimeRestore" ? element(var.sql_source_database_deletion_dates, count.index) : var.sql_source_database_default_deletion_date
   elastic_pool_name                = element(var.sql_database_elastic_pool_names, count.index)
   read_scale                       = element(var.sql_database_read_scale, count.index)
-  zone_redundant                   = element(var.sql_database_zone_redundant, count.index)
-
 
   dynamic "import" {
     for_each = element(var.sql_database_create_modes, count.index) == "Default" && element(var.sql_database_import_enabled, count.index) != false ? [1] : []
@@ -82,7 +80,6 @@ resource "azurerm_sql_database" "this" {
     }
   }
 
-  #depends_on      = [azurerm_sql_failover_group.this]
   tags = merge(
     var.tags,
     var.sql_database_tags,
@@ -117,27 +114,27 @@ resource "azurerm_mssql_elasticpool" "this" {
   resource_group_name = var.resource_group_name
   location            = element(var.mssql_elastic_pool_locations, count.index)
   server_name         = var.sql_server_count > 1 ? lookup(local.sql_server_name, element(var.mssql_elastic_pool_server_names, count.index), null) : element(concat(azurerm_sql_server.this.*.name, list("")), 0)
-  max_size_gb         = element(var.mssql_elastic_pool_max_size_gb, count.index)
-  max_size_bytes      = element(var.mssql_elastic_pool_max_size_gb, count.index) == 0 ? element(var.mssql_elastic_pool_max_size_bytes, count.index) : null
+  max_size_gb         = element(var.mssql_elastic_pool_max_size_gbs, count.index)
+  max_size_bytes      = element(var.mssql_elastic_pool_max_size_gbs, count.index) == 0 ? element(var.mssql_elastic_pool_max_size_bytes, count.index) : null
   zone_redundant      = element(var.mssql_elastic_pool_zone_redundant, count.index)
 
   dynamic "sku" {
-    for_each = element(var.mssql_elastic_pool_sku_name, count.index) != "" ? [1] : []
+    for_each = element(var.mssql_elastic_pool_sku_names, count.index) != "" ? [1] : []
 
     content {
-      name     = element(var.mssql_elastic_pool_sku_name, count.index)
-      capacity = element(var.mssql_elastic_pool_sku_capacity, count.index)
-      tier     = element(var.mssql_elastic_pool_sku_tier, count.index)
-      family   = element(var.mssql_elastic_pool_sku_family, count.index)
+      name     = element(var.mssql_elastic_pool_sku_names, count.index)
+      capacity = element(var.mssql_elastic_pool_sku_capacities, count.index)
+      tier     = element(var.mssql_elastic_pool_sku_tiers, count.index)
+      family   = element(var.mssql_elastic_pool_sku_families, count.index)
     }
   }
 
   dynamic "per_database_settings" {
-    for_each = element(var.per_database_settings_min_capacity, count.index) != "" ? [1] : []
+    for_each = element(var.per_database_settings_min_capacities, count.index) != "" ? [1] : []
 
     content {
-      min_capacity = element(var.per_database_settings_min_capacity, count.index)
-      max_capacity = element(var.per_database_settings_max_capacity, count.index)
+      min_capacity = element(var.per_database_settings_min_capacities, count.index)
+      max_capacity = element(var.per_database_settings_max_capacities, count.index)
     }
   }
   depends_on = [azurerm_sql_server.this]

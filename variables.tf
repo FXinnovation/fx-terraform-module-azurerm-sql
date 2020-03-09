@@ -10,6 +10,7 @@ variable "enabled" {
 variable "resource_group_name" {
   description = "Name of the resource group where to create the SQL server."
   type        = string
+  default     = ""
 }
 
 variable "tags" {
@@ -177,12 +178,6 @@ variable "sql_database_elastic_pool_names" {
 
 variable "sql_database_read_scale" {
   description = "Read-only connections will be redirected to a high-available replica. Please see https://docs.microsoft.com/en-us/azure/sql-database/sql-database-read-scale-out."
-  type        = list(bool)
-  default     = [false]
-}
-
-variable "sql_database_zone_redundant" {
-  description = "Whether or not this database is zone redundant, which means the replicas of this database will be spread across multiple availability zones."
   type        = list(bool)
   default     = [false]
 }
@@ -357,7 +352,7 @@ variable "mssql_elastic_pool_server_names" {
   default     = []
 }
 
-variable "mssql_elastic_pool_max_size_gb" {
+variable "mssql_elastic_pool_max_size_gbs" {
   description = "The list of max data size of the elastic pool in gigabytes. Conflicts with `max_size_bytes`."
   type        = list(number)
   default     = [10]
@@ -375,37 +370,37 @@ variable "mssql_elastic_pool_zone_redundant" {
   default     = [false]
 }
 
-variable "mssql_elastic_pool_sku_name" {
+variable "mssql_elastic_pool_sku_names" {
   description = "The names of the SKUs for the elastic pool. The name of the SKU, will be either `vCore` based `tier` + `family` pattern (e.g. GP_Gen4, BC_Gen5) or the `DTU` based `BasicPool`, `StandardPool`, or `PremiumPool` pattern.If enabled value is `REQUIRED`"
   type        = list(string)
   default     = [""]
 }
 
-variable "mssql_elastic_pool_sku_capacity" {
+variable "mssql_elastic_pool_sku_capacities" {
   description = "The scale up/out capacity, representing server's compute units. For more information see the documentation for your Elasticpool configuration: `vCore-based` (https://docs.microsoft.com/en-us/azure/sql-database/sql-database-vcore-resource-limits-elastic-pools) or `DTU-based`(https://docs.microsoft.com/en-us/azure/sql-database/sql-database-dtu-resource-limits-elastic-pools). If enabled value is `REQUIRED`"
   type        = list(number)
   default     = [2]
 }
 
-variable "mssql_elastic_pool_sku_tier" {
+variable "mssql_elastic_pool_sku_tiers" {
   description = "The tier of the particular SKU. Possible values are `GeneralPurpose`, `BusinessCritical`, `Basic`, `Standard`, or `Premium`. For more information see the documentation for your Elasticpool configuration: `vCore-based` or `DTU-based`.If enabled value is `REQUIRED`"
   type        = list(string)
   default     = ["GeneralPurpose"]
 }
 
-variable "mssql_elastic_pool_sku_family" {
+variable "mssql_elastic_pool_sku_families" {
   description = " The family of hardware `Gen4` or `Gen5`."
   type        = list(string)
   default     = ["Gen5"]
 }
 
-variable "per_database_settings_min_capacity" {
+variable "per_database_settings_min_capacities" {
   description = "The minimum capacity all databases are guaranteed.If enabled value is `REQUIRED`"
   type        = list(number)
   default     = [0]
 }
 
-variable "per_database_settings_max_capacity" {
+variable "per_database_settings_max_capacities" {
   description = "The maximum capacity any one database can consume.If enabled value is `REQUIRED`"
   type        = list(number)
   default     = [1]

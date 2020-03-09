@@ -4,6 +4,7 @@
 See `examples` folders for usage of this module.
 
 ## Limitation
+- `zone_redundant` option for `azurerm_sql_database` resource will be avaliable from when we start using the azurerm provider version `2.0.0`.
 - when cretaing the SQL databases from .bacpac file and new database at same time. Create databases with import file first and then create new databases.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
@@ -29,24 +30,24 @@ See `examples` folders for usage of this module.
 | import\_storage\_uri | List which specifies the blob URIs of the `.bacpac` file. | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | mssql\_elastic\_pool\_locations | the list of names of the SQL server under which the elastic pool will be created. Changing this will force to create new resource.If enabled value is `REQUIRED` | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | mssql\_elastic\_pool\_max\_size\_bytes | The max data size of the elastic pool in bytes. Conflicts with `max_size_gb`. | `list(number)` | <pre>[<br>  10737418240<br>]</pre> | no |
-| mssql\_elastic\_pool\_max\_size\_gb | The list of max data size of the elastic pool in gigabytes. Conflicts with `max_size_bytes`. | `list(number)` | <pre>[<br>  10<br>]</pre> | no |
+| mssql\_elastic\_pool\_max\_size\_gbs | The list of max data size of the elastic pool in gigabytes. Conflicts with `max_size_bytes`. | `list(number)` | <pre>[<br>  10<br>]</pre> | no |
 | mssql\_elastic\_pool\_names | Names of the elastic pool. This needs to be globally unique. Changing this forces a new resource to be created.If enabled value is `REQUIRED` | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | mssql\_elastic\_pool\_server\_names | The liat of SQL server names under which the elastic pool will be created. Changing this foreces a new resource to be created.If enabled value is `REQUIRED` | `list(string)` | `[]` | no |
-| mssql\_elastic\_pool\_sku\_capacity | The scale up/out capacity, representing server's compute units. For more information see the documentation for your Elasticpool configuration: `vCore-based` (https://docs.microsoft.com/en-us/azure/sql-database/sql-database-vcore-resource-limits-elastic-pools) or `DTU-based`(https://docs.microsoft.com/en-us/azure/sql-database/sql-database-dtu-resource-limits-elastic-pools). If enabled value is `REQUIRED` | `list(number)` | <pre>[<br>  2<br>]</pre> | no |
-| mssql\_elastic\_pool\_sku\_family | The family of hardware `Gen4` or `Gen5`. | `list(string)` | <pre>[<br>  "Gen5"<br>]</pre> | no |
-| mssql\_elastic\_pool\_sku\_name | The names of the SKUs for the elastic pool. The name of the SKU, will be either `vCore` based `tier` + `family` pattern (e.g. GP\_Gen4, BC\_Gen5) or the `DTU` based `BasicPool`, `StandardPool`, or `PremiumPool` pattern.If enabled value is `REQUIRED` | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
-| mssql\_elastic\_pool\_sku\_tier | The tier of the particular SKU. Possible values are `GeneralPurpose`, `BusinessCritical`, `Basic`, `Standard`, or `Premium`. For more information see the documentation for your Elasticpool configuration: `vCore-based` or `DTU-based`.If enabled value is `REQUIRED` | `list(string)` | <pre>[<br>  "GeneralPurpose"<br>]</pre> | no |
+| mssql\_elastic\_pool\_sku\_capacities | The scale up/out capacity, representing server's compute units. For more information see the documentation for your Elasticpool configuration: `vCore-based` (https://docs.microsoft.com/en-us/azure/sql-database/sql-database-vcore-resource-limits-elastic-pools) or `DTU-based`(https://docs.microsoft.com/en-us/azure/sql-database/sql-database-dtu-resource-limits-elastic-pools). If enabled value is `REQUIRED` | `list(number)` | <pre>[<br>  2<br>]</pre> | no |
+| mssql\_elastic\_pool\_sku\_families | The family of hardware `Gen4` or `Gen5`. | `list(string)` | <pre>[<br>  "Gen5"<br>]</pre> | no |
+| mssql\_elastic\_pool\_sku\_names | The names of the SKUs for the elastic pool. The name of the SKU, will be either `vCore` based `tier` + `family` pattern (e.g. GP\_Gen4, BC\_Gen5) or the `DTU` based `BasicPool`, `StandardPool`, or `PremiumPool` pattern.If enabled value is `REQUIRED` | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
+| mssql\_elastic\_pool\_sku\_tiers | The tier of the particular SKU. Possible values are `GeneralPurpose`, `BusinessCritical`, `Basic`, `Standard`, or `Premium`. For more information see the documentation for your Elasticpool configuration: `vCore-based` or `DTU-based`.If enabled value is `REQUIRED` | `list(string)` | <pre>[<br>  "GeneralPurpose"<br>]</pre> | no |
 | mssql\_elastic\_pool\_tags | Tags which will be associated to the elastic pool. | `map` | `{}` | no |
 | mssql\_elastic\_pool\_zone\_redundant | Whether or not this elastic pool is zone redundant. `tier` needs to be `Premium` for `DTU` based or `BusinessCritical` for `vCore` based `sku`. Defaults to `false`. | `list(bool)` | <pre>[<br>  false<br>]</pre> | no |
 | mssql\_elasticpool\_enabled | Boolean flag which describes whether or not to enable the elaticpool. | `bool` | `false` | no |
 | object\_ids | The IDs of the principal to set as the server administrator. If enabled value is `REQUIRED` | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | partner\_servers\_ids | A list of secondary SQL servers IDs.If enabled value is `REQUIRED` | `list(string)` | <pre>[<br>  null<br>]</pre> | no |
-| per\_database\_settings\_max\_capacity | The maximum capacity any one database can consume.If enabled value is `REQUIRED` | `list(number)` | <pre>[<br>  1<br>]</pre> | no |
-| per\_database\_settings\_min\_capacity | The minimum capacity all databases are guaranteed.If enabled value is `REQUIRED` | `list(number)` | <pre>[<br>  0<br>]</pre> | no |
+| per\_database\_settings\_max\_capacities | The maximum capacity any one database can consume.If enabled value is `REQUIRED` | `list(number)` | <pre>[<br>  1<br>]</pre> | no |
+| per\_database\_settings\_min\_capacities | The minimum capacity all databases are guaranteed.If enabled value is `REQUIRED` | `list(number)` | <pre>[<br>  0<br>]</pre> | no |
 | read\_write\_failover\_policy\_grace\_minutes | Applies only if `mode` is `Automatic`. The list which specifies the grace period in minutes before failover with data loss is attempted.If enabled value is `REQUIRED` | `list(number)` | <pre>[<br>  30<br>]</pre> | no |
 | read\_write\_failover\_policy\_modes | A read/write policy failover mode. Possible values are `Manual`, `Automatic`.If enabled value is `REQUIRED` | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | readonly\_failover\_policy\_modes | A failover policy for the read-only endpoints.Possible values are `Enabled`, and `Disabled`. | `list(string)` | <pre>[<br>  "Disabled"<br>]</pre> | no |
-| resource\_group\_name | Name of the resource group where to create the SQL server. | `string` | n/a | yes |
+| resource\_group\_name | Name of the resource group where to create the SQL server. | `string` | `""` | no |
 | sql\_ad\_admin\_count | The numebr AD admins we would like to create for the SQL server. | `number` | `1` | no |
 | sql\_ad\_admin\_enabled | Boolean flag which describes whether or not to enable the SQL active directory administrator. | `bool` | `false` | no |
 | sql\_ad\_admin\_server\_names | the list of names of the SQL server for which AD administrator accounts will be created. Changing this will force to create new resource.If enabled value is `REQUIRED` | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
@@ -69,7 +70,6 @@ See `examples` folders for usage of this module.
 | sql\_database\_restore\_point\_in\_times | List which specifies point in time for the restore. Only applies if `create_mode` is `PointInTimeRestore` e.g. `2013-11-08T22:00:40Z`. | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | sql\_database\_server\_names | The liat of SQL server names under which the database will be created. Changing this foreces a new resource to be created.If enabled value is `REQUIRED` | `list(string)` | `[]` | no |
 | sql\_database\_tags | Tags which will be associted to the SQL database. | `map` | `{}` | no |
-| sql\_database\_zone\_redundant | Whether or not this database is zone redundant, which means the replicas of this database will be spread across multiple availability zones. | `list(bool)` | <pre>[<br>  false<br>]</pre> | no |
 | sql\_databases\_enabled | Boolean flag which describes whether or not to create the SQL databases. | `bool` | `false` | no |
 | sql\_existing\_database\_ids | A list of existing database IDs. | `list(list(string))` | <pre>[<br>  null<br>]</pre> | no |
 | sql\_failover\_group\_count | The number of failover group the module will create. | `number` | `1` | no |
@@ -116,11 +116,11 @@ See `examples` folders for usage of this module.
 
 | Name | Description |
 |------|-------------|
-| mssql\_elatic\_pool\_ids | The IDs of the MS SQL elastic pools. |
-| sql\_ad\_admins\_ids | The IDs od the SQL AD administratot. |
+| mssql\_elastic\_pool\_ids | The IDs of the MS SQL elastic pools. |
+| sql\_ad\_admin\_ids | The IDs od the SQL AD administratot. |
 | sql\_database\_creation\_date | The dates at which SQL database was created. |
 | sql\_database\_ids | The IDs of the SQL databases. |
-| sql\_database\_secondary\_location | The default secondary location of the SQL databases. |
+| sql\_database\_secondary\_locations | The default secondary location of the SQL databases. |
 | sql\_failover\_group\_databases | The list of databases in the failover group. |
 | sql\_failover\_group\_ids | The IDs of the failover groups. |
 | sql\_failover\_group\_locations | The locations of the failover group |
@@ -128,7 +128,7 @@ See `examples` folders for usage of this module.
 | sql\_failover\_group\_role | The local replication roles of the failover group instances. |
 | sql\_failover\_group\_servers | The names of the primary SQL database server. |
 | sql\_firewall\_rule\_ids | The IDs of the SQL firewall rules. |
-| sql\_server\_fqdn | The fully qualified domain names of the SQL servers. |
+| sql\_server\_fqdns | The fully qualified domain names of the SQL servers. |
 | sql\_server\_ids | IDs of the SQL servers. |
 | sql\_vnet\_rule\_ids | The IDs of the SQL virtual network rules. |
 

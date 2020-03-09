@@ -25,6 +25,19 @@ No provider.
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| ad\_admin\_ids | n/a |
+| database\_ids | n/a |
+| database\_secondary\_locations | n/a |
+| failover\_group\_databases | n/a |
+| failover\_group\_ids | n/a |
+| failover\_group\_partner\_servers | n/a |
+| failover\_group\_servers | n/a |
+| firewall\_rule\_ids | n/a |
+| fqdn\_sql\_server | n/a |
+| mssql\_elastic\_pool\_ids | n/a |
+| sql\_server\_ids | n/a |
+| vnet\_rule\_ids | n/a |
 
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->

@@ -7,7 +7,7 @@ output "sql_server_ids" {
   value       = compact(concat(azurerm_sql_server.this.*.id, [""]))
 }
 
-output "sql_server_fqdn" {
+output "sql_server_fqdns" {
   description = "The fully qualified domain names of the SQL servers."
   value       = compact(concat(azurerm_sql_server.this.*.fully_qualified_domain_name, [""]))
 }
@@ -26,7 +26,7 @@ output "sql_database_creation_date" {
   value       = compact(concat(azurerm_sql_database.this.*.creation_date, [""]))
 }
 
-output "sql_database_secondary_location" {
+output "sql_database_secondary_locations" {
   description = "The default secondary location of the SQL databases."
   value       = compact(concat(azurerm_sql_database.this.*.default_secondary_location, [""]))
 }
@@ -44,7 +44,7 @@ output "sql_firewall_rule_ids" {
 # MSSQL elastic pool
 ###
 
-output "mssql_elatic_pool_ids" {
+output "mssql_elastic_pool_ids" {
   description = "The IDs of the MS SQL elastic pools."
   value       = compact(concat(azurerm_mssql_elasticpool.this.*.id, [""]))
 }
@@ -96,7 +96,7 @@ output "sql_vnet_rule_ids" {
 # SQL AD administrator
 ###
 
-output "sql_ad_admins_ids" {
+output "sql_ad_admin_ids" {
   description = "The IDs od the SQL AD administratot."
   value       = compact(concat(azurerm_sql_active_directory_administrator.this.*.id, [""]))
 }
