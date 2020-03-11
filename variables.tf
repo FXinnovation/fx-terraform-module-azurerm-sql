@@ -94,12 +94,6 @@ variable "sql_database_names" {
   default     = []
 }
 
-variable "sql_database_locations" {
-  description = "the list of names of the SQL database locations where it will  be created.Chaning this will force to create new resource.If enabled value is `REQUIRED`"
-  type        = list(string)
-  default     = [""]
-}
-
 variable "sql_database_server_names" {
   description = "The liat of SQL server names under which the database will be created. Changing this foreces a new resource to be created.If enabled value is `REQUIRED`"
   type        = list(string)
@@ -336,12 +330,6 @@ variable "mssql_elasticpool_enabled" {
 
 variable "mssql_elastic_pool_names" {
   description = "Names of the elastic pool. This needs to be globally unique. Changing this forces a new resource to be created.If enabled value is `REQUIRED`"
-  type        = list(string)
-  default     = [""]
-}
-
-variable "mssql_elastic_pool_locations" {
-  description = "the list of names of the SQL server under which the elastic pool will be created. Changing this will force to create new resource.If enabled value is `REQUIRED`"
   type        = list(string)
   default     = [""]
 }

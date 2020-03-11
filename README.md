@@ -28,7 +28,6 @@ See `examples` folders for usage of this module.
 | import\_storage\_key | Specifies the access key for the storage account. | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | import\_storage\_key\_type | List which specifies the type of access key for the storage account. Valid values are `StorageAccessKey` or `SharedAccessKey`. | `list(string)` | <pre>[<br>  "SharedAccessKey"<br>]</pre> | no |
 | import\_storage\_uri | List which specifies the blob URIs of the `.bacpac` file. | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
-| mssql\_elastic\_pool\_locations | the list of names of the SQL server under which the elastic pool will be created. Changing this will force to create new resource.If enabled value is `REQUIRED` | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | mssql\_elastic\_pool\_max\_size\_bytes | The max data size of the elastic pool in bytes. Conflicts with `max_size_gb`. | `list(number)` | <pre>[<br>  10737418240<br>]</pre> | no |
 | mssql\_elastic\_pool\_max\_size\_gbs | The list of max data size of the elastic pool in gigabytes. Conflicts with `max_size_bytes`. | `list(number)` | <pre>[<br>  10<br>]</pre> | no |
 | mssql\_elastic\_pool\_names | Names of the elastic pool. This needs to be globally unique. Changing this forces a new resource to be created.If enabled value is `REQUIRED` | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
@@ -61,7 +60,6 @@ See `examples` folders for usage of this module.
 | sql\_database\_id\_end\_indexes | The list which corresponds  to the end index (exclusive) of the database ID. This value should not be greater than the length of SQL database names variable.If enabled value is `REQUIRED` | `list(number)` | <pre>[<br>  1<br>]</pre> | no |
 | sql\_database\_id\_start\_indexes | The list of start indexes(inclusive) which corresponds to the database ID.If enabled value is `REQUIRED` | `list(number)` | <pre>[<br>  0<br>]</pre> | no |
 | sql\_database\_import\_enabled | Boolean flag which describes whether the database is imported from .bacpc file or creating new database. | `list(bool)` | <pre>[<br>  false<br>]</pre> | no |
-| sql\_database\_locations | the list of names of the SQL database locations where it will  be created.Chaning this will force to create new resource.If enabled value is `REQUIRED` | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | sql\_database\_max\_size\_bytes | The list of maximum size that the databases can grow to. Applies only if `create_mode` is `Default`. Please see Azure SQL Database Service Tiers. https://docs.microsoft.com/en-us/azure/sql-database/sql-database-purchase-models | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | sql\_database\_names | The list of databases which will b created.If enabled value is `REQUIRED` | `list(string)` | `[]` | no |
 | sql\_database\_read\_scale | Read-only connections will be redirected to a high-available replica. Please see https://docs.microsoft.com/en-us/azure/sql-database/sql-database-read-scale-out. | `list(bool)` | <pre>[<br>  false<br>]</pre> | no |

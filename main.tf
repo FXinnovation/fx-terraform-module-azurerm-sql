@@ -37,7 +37,7 @@ resource "azurerm_sql_database" "this" {
 
   name                             = element(var.sql_database_names, count.index)
   resource_group_name              = var.resource_group_name
-  location                         = element(var.sql_database_locations, count.index)
+  location                         = var.sql_server_count > 1 ? lookup(local.sql_server_location, element(var.sql_database_server_names, count.index)) : element(concat(azurerm_sql_server.this.*.location, list("")), 0)
   server_name                      = var.sql_server_count > 1 ? lookup(local.sql_server_name, element(var.sql_database_server_names, count.index)) : element(concat(azurerm_sql_server.this.*.name, list("")), 0)
   create_mode                      = element(var.sql_database_create_modes, count.index)
   source_database_id               = element(var.sql_database_create_modes, count.index) != "Default" ? element(var.sql_source_database_ids, count.index) : ""
@@ -112,7 +112,7 @@ resource "azurerm_mssql_elasticpool" "this" {
 
   name                = element(var.mssql_elastic_pool_names, count.index)
   resource_group_name = var.resource_group_name
-  location            = element(var.mssql_elastic_pool_locations, count.index)
+  location            = var.sql_server_count > 1 ? lookup(local.sql_server_location, element(var.mssql_elastic_pool_server_names, count.index), null) : element(concat(azurerm_sql_server.this.*.location, list("")), 0)
   server_name         = var.sql_server_count > 1 ? lookup(local.sql_server_name, element(var.mssql_elastic_pool_server_names, count.index), null) : element(concat(azurerm_sql_server.this.*.name, list("")), 0)
   max_size_gb         = element(var.mssql_elastic_pool_max_size_gbs, count.index)
   max_size_bytes      = element(var.mssql_elastic_pool_max_size_gbs, count.index) == 0 ? element(var.mssql_elastic_pool_max_size_bytes, count.index) : null

@@ -83,7 +83,6 @@ module "example" {
 
   mssql_elasticpool_enabled            = true
   mssql_elastic_pool_names             = ["tftest-elasticpool${random_string.this.result}"]
-  mssql_elastic_pool_locations         = ["${azurerm_resource_group.example.location}"]
   mssql_elastic_pool_server_names      = ["tftest1${random_string.this.result}"]
   mssql_elastic_pool_sku_names         = ["GP_Gen5"]
   mssql_elastic_pool_sku_capacities    = [2]
@@ -94,10 +93,9 @@ module "example" {
   per_database_settings_max_capacities = [1]
 
   sql_databases_enabled     = true
-  sql_database_count        = 1
+  sql_database_count        = 2
   sql_database_names        = ["tftest${random_string.this.result}"]
-  sql_database_locations    = ["${azurerm_resource_group.example.location}"]
-  sql_database_server_names = ["tftest1${random_string.this.result}"]
+  sql_database_server_names = ["tftest1${random_string.this.result}", "tftest2${random_string.this.result}"]
 
   sql_vnet_rule_enabled                     = true
   sql_vnet_rule_names                       = ["tftest-rule${random_string.this.result}"]

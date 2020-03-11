@@ -83,7 +83,6 @@ module "example" {
 
   mssql_elasticpool_enabled            = true
   mssql_elastic_pool_names             = ["tftest-elasticpool${random_string.this.result}", "tftest-elasticpool2${random_string.this.result}"]
-  mssql_elastic_pool_locations         = ["${azurerm_resource_group.example.location}", "France central"]
   mssql_elastic_pool_server_names      = ["tftest1${random_string.this.result}", "tftest3${random_string.this.result}"]
   mssql_elastic_pool_sku_names         = ["GP_Gen5"]
   mssql_elastic_pool_sku_capacities    = [2]
@@ -96,7 +95,6 @@ module "example" {
   sql_databases_enabled     = true
   sql_database_count        = 4
   sql_database_names        = ["tftest1${random_string.this.result}", "tftest2${random_string.this.result}", "tftest3${random_string.this.result}", "tftest4${random_string.this.result}"]
-  sql_database_locations    = ["${azurerm_resource_group.example.location}", "${azurerm_resource_group.example.location}", "France central", "France central"]
   sql_database_server_names = ["tftest1${random_string.this.result}", "tftest1${random_string.this.result}", "tftest3${random_string.this.result}", "tftest3${random_string.this.result}"]
 
   sql_failover_group_enabled      = true
