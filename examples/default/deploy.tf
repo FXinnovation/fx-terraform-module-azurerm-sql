@@ -94,8 +94,8 @@ module "example" {
 
   sql_databases_enabled     = true
   sql_database_count        = 2
-  sql_database_names        = ["tftest${random_string.this.result}"]
-  sql_database_server_names = ["tftest1${random_string.this.result}", "tftest2${random_string.this.result}"]
+  sql_database_names        = ["tftest${random_string.this.result}", "tftest2${random_string.this.result}"]
+  sql_database_server_names = ["tftest1${random_string.this.result}"]
 
   sql_vnet_rule_enabled                     = true
   sql_vnet_rule_names                       = ["tftest-rule${random_string.this.result}"]
