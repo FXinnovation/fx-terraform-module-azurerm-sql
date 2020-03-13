@@ -373,13 +373,19 @@ variable "mssql_elastic_pool_sku_capacities" {
 variable "mssql_elastic_pool_sku_tiers" {
   description = "The tier of the particular SKU. Possible values are `GeneralPurpose`, `BusinessCritical`, `Basic`, `Standard`, or `Premium`. For more information see the documentation for your Elasticpool configuration: `vCore-based` or `DTU-based`.If enabled value is `REQUIRED`"
   type        = list(string)
-  default     = []
+  default     = ["GeneralPurpose"]
+}
+
+variable "mssql_elatic_pool_families_enabled" {
+  description = "The boolean flag which describes whether to enabled the sku familiy or not."
+  type        = list(bool)
+  default     = [false]
 }
 
 variable "mssql_elastic_pool_sku_families" {
   description = "The family of hardware `Gen4` or `Gen5`."
   type        = list(string)
-  default     = []
+  default     = ["Gen5"]
 }
 
 variable "per_database_settings_min_capacities" {

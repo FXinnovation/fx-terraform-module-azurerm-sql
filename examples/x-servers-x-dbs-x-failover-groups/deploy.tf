@@ -87,6 +87,7 @@ module "example" {
   mssql_elastic_pool_sku_names         = ["GP_Gen5"]
   mssql_elastic_pool_sku_capacities    = [2]
   mssql_elastic_pool_sku_tiers         = ["GeneralPurpose"]
+  mssql_elatic_pool_families_enabled   = [true]
   mssql_elastic_pool_sku_families      = ["Gen5"]
   mssql_elastic_pool_max_size_gbs      = [10]
   per_database_settings_min_capacities = [0]

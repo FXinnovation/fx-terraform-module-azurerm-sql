@@ -125,7 +125,7 @@ resource "azurerm_mssql_elasticpool" "this" {
       name     = element(var.mssql_elastic_pool_sku_names, count.index)
       capacity = element(var.mssql_elastic_pool_sku_capacities, count.index)
       tier     = element(var.mssql_elastic_pool_sku_tiers, count.index)
-      family   = element(var.mssql_elastic_pool_sku_families, count.index)
+      family   = element(var.mssql_elatic_pool_families_enabled, count.index) == true ? element(var.mssql_elastic_pool_sku_families, count.index) : null
     }
   }
 
