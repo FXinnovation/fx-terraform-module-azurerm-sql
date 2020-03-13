@@ -29,6 +29,8 @@ See `examples` folders for usage of this module.
 | import\_storage\_key\_type | List which specifies the type of access key for the storage account. Valid values are `StorageAccessKey` or `SharedAccessKey`. | `list(string)` | <pre>[<br>  "SharedAccessKey"<br>]</pre> | no |
 | import\_storage\_uri | List which specifies the blob URIs of the `.bacpac` file. | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | mssql\_elastic\_pool\_max\_size\_bytes | The max data size of the elastic pool in bytes. Conflicts with `max_size_gb`. | `list(number)` | <pre>[<br>  10737418240<br>]</pre> | no |
+| mssql\_elastic\_pool\_max\_size\_bytes\_enabled | The boolean flag which describes whether you want to specify max data size of the elastic pool in bytes. Conflicts with `max_size_gb`. | `list(bool)` | <pre>[<br>  false<br>]</pre> | no |
+| mssql\_elastic\_pool\_max\_size\_gb\_enabled | The boolean flag which describes whether you want to specify  max data size of the elastic pool in gb. Conflicts with `max_size_gb`. | `list(bool)` | <pre>[<br>  false<br>]</pre> | no |
 | mssql\_elastic\_pool\_max\_size\_gbs | The list of max data size of the elastic pool in gigabytes. Conflicts with `max_size_bytes`. | `list(number)` | <pre>[<br>  10<br>]</pre> | no |
 | mssql\_elastic\_pool\_names | Names of the elastic pool. This needs to be globally unique. Changing this forces a new resource to be created.If enabled value is `REQUIRED` | `list(string)` | <pre>[<br>  ""<br>]</pre> | no |
 | mssql\_elastic\_pool\_server\_names | The liat of SQL server names under which the elastic pool will be created. Changing this foreces a new resource to be created.If enabled value is `REQUIRED` | `list(string)` | `[]` | no |

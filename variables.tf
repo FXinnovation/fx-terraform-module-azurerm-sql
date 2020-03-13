@@ -340,10 +340,22 @@ variable "mssql_elastic_pool_server_names" {
   default     = []
 }
 
+variable "mssql_elastic_pool_max_size_gb_enabled" {
+  description = "The boolean flag which describes whether you want to specify  max data size of the elastic pool in gb. Conflicts with `max_size_gb`."
+  type        = list(bool)
+  default     = [false]
+}
+
 variable "mssql_elastic_pool_max_size_gbs" {
   description = "The list of max data size of the elastic pool in gigabytes. Conflicts with `max_size_bytes`."
   type        = list(number)
   default     = [10]
+}
+
+variable "mssql_elastic_pool_max_size_bytes_enabled" {
+  description = "The boolean flag which describes whether you want to specify max data size of the elastic pool in bytes. Conflicts with `max_size_gb`."
+  type        = list(bool)
+  default     = [false]
 }
 
 variable "mssql_elastic_pool_max_size_bytes" {
