@@ -361,7 +361,7 @@ variable "mssql_elastic_pool_zone_redundant" {
 variable "mssql_elastic_pool_sku_names" {
   description = "The names of the SKUs for the elastic pool. The name of the SKU, will be either `vCore` based `tier` + `family` pattern (e.g. GP_Gen4, BC_Gen5) or the `DTU` based `BasicPool`, `StandardPool`, or `PremiumPool` pattern.If enabled value is `REQUIRED`"
   type        = list(string)
-  default     = [""]
+  default     = []
 }
 
 variable "mssql_elastic_pool_sku_capacities" {
@@ -373,13 +373,13 @@ variable "mssql_elastic_pool_sku_capacities" {
 variable "mssql_elastic_pool_sku_tiers" {
   description = "The tier of the particular SKU. Possible values are `GeneralPurpose`, `BusinessCritical`, `Basic`, `Standard`, or `Premium`. For more information see the documentation for your Elasticpool configuration: `vCore-based` or `DTU-based`.If enabled value is `REQUIRED`"
   type        = list(string)
-  default     = ["GeneralPurpose"]
+  default     = []
 }
 
 variable "mssql_elastic_pool_sku_families" {
-  description = " The family of hardware `Gen4` or `Gen5`."
+  description = "The family of hardware `Gen4` or `Gen5`."
   type        = list(string)
-  default     = ["Gen5"]
+  default     = []
 }
 
 variable "per_database_settings_min_capacities" {
