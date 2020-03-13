@@ -340,10 +340,22 @@ variable "mssql_elastic_pool_server_names" {
   default     = []
 }
 
+variable "mssql_elastic_pool_max_size_gb_enabled" {
+  description = "The boolean flag which describes whether you want to specify  max data size of the elastic pool in gb. Conflicts with `max_size_gb`."
+  type        = list(bool)
+  default     = [false]
+}
+
 variable "mssql_elastic_pool_max_size_gbs" {
   description = "The list of max data size of the elastic pool in gigabytes. Conflicts with `max_size_bytes`."
   type        = list(number)
   default     = [10]
+}
+
+variable "mssql_elastic_pool_max_size_bytes_enabled" {
+  description = "The boolean flag which describes whether you want to specify max data size of the elastic pool in bytes. Conflicts with `max_size_gb`."
+  type        = list(bool)
+  default     = [false]
 }
 
 variable "mssql_elastic_pool_max_size_bytes" {
@@ -361,7 +373,7 @@ variable "mssql_elastic_pool_zone_redundant" {
 variable "mssql_elastic_pool_sku_names" {
   description = "The names of the SKUs for the elastic pool. The name of the SKU, will be either `vCore` based `tier` + `family` pattern (e.g. GP_Gen4, BC_Gen5) or the `DTU` based `BasicPool`, `StandardPool`, or `PremiumPool` pattern.If enabled value is `REQUIRED`"
   type        = list(string)
-  default     = [""]
+  default     = []
 }
 
 variable "mssql_elastic_pool_sku_capacities" {
@@ -376,8 +388,14 @@ variable "mssql_elastic_pool_sku_tiers" {
   default     = ["GeneralPurpose"]
 }
 
+variable "mssql_elatic_pool_families_enabled" {
+  description = "The boolean flag which describes whether to enabled the sku familiy or not."
+  type        = list(bool)
+  default     = [false]
+}
+
 variable "mssql_elastic_pool_sku_families" {
-  description = " The family of hardware `Gen4` or `Gen5`."
+  description = "The family of hardware `Gen4` or `Gen5`."
   type        = list(string)
   default     = ["Gen5"]
 }

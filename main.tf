@@ -114,8 +114,8 @@ resource "azurerm_mssql_elasticpool" "this" {
   resource_group_name = var.resource_group_name
   location            = var.sql_server_count > 1 ? lookup(local.sql_server_location, element(var.mssql_elastic_pool_server_names, count.index), null) : element(concat(azurerm_sql_server.this.*.location, list("")), 0)
   server_name         = var.sql_server_count > 1 ? lookup(local.sql_server_name, element(var.mssql_elastic_pool_server_names, count.index), null) : element(concat(azurerm_sql_server.this.*.name, list("")), 0)
-  max_size_gb         = element(var.mssql_elastic_pool_max_size_gbs, count.index)
-  max_size_bytes      = element(var.mssql_elastic_pool_max_size_gbs, count.index) == 0 ? element(var.mssql_elastic_pool_max_size_bytes, count.index) : null
+  max_size_gb         = element(var.mssql_elastic_pool_max_size_gb_enabled, count.index) == true ? element(var.mssql_elastic_pool_max_size_gbs, count.index) : null
+  max_size_bytes      = element(var.mssql_elastic_pool_max_size_bytes_enabled, count.index) == true ? element(var.mssql_elastic_pool_max_size_bytes, count.index) : null
   zone_redundant      = element(var.mssql_elastic_pool_zone_redundant, count.index)
 
   dynamic "sku" {
@@ -125,7 +125,7 @@ resource "azurerm_mssql_elasticpool" "this" {
       name     = element(var.mssql_elastic_pool_sku_names, count.index)
       capacity = element(var.mssql_elastic_pool_sku_capacities, count.index)
       tier     = element(var.mssql_elastic_pool_sku_tiers, count.index)
-      family   = element(var.mssql_elastic_pool_sku_families, count.index)
+      family   = element(var.mssql_elatic_pool_families_enabled, count.index) == true ? element(var.mssql_elastic_pool_sku_families, count.index) : null
     }
   }
 

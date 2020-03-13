@@ -81,16 +81,18 @@ module "example" {
   sql_server_administrator_login_passwords = ["${azurerm_key_vault_secret.example.value}"]
 
 
-  mssql_elasticpool_enabled            = true
-  mssql_elastic_pool_names             = ["tftest-elasticpool${random_string.this.result}", "tftest-elasticpool2${random_string.this.result}"]
-  mssql_elastic_pool_server_names      = ["tftest1${random_string.this.result}", "tftest3${random_string.this.result}"]
-  mssql_elastic_pool_sku_names         = ["GP_Gen5"]
-  mssql_elastic_pool_sku_capacities    = [2]
-  mssql_elastic_pool_sku_tiers         = ["GeneralPurpose"]
-  mssql_elastic_pool_sku_families      = ["Gen5"]
-  mssql_elastic_pool_max_size_gbs      = [10]
-  per_database_settings_min_capacities = [0]
-  per_database_settings_max_capacities = [1]
+  mssql_elasticpool_enabled              = true
+  mssql_elastic_pool_names               = ["tftest-elasticpool${random_string.this.result}", "tftest-elasticpool2${random_string.this.result}"]
+  mssql_elastic_pool_server_names        = ["tftest1${random_string.this.result}", "tftest3${random_string.this.result}"]
+  mssql_elastic_pool_sku_names           = ["GP_Gen5"]
+  mssql_elastic_pool_sku_capacities      = [2]
+  mssql_elastic_pool_sku_tiers           = ["GeneralPurpose"]
+  mssql_elatic_pool_families_enabled     = [true]
+  mssql_elastic_pool_sku_families        = ["Gen5"]
+  mssql_elastic_pool_max_size_gb_enabled = [true]
+  mssql_elastic_pool_max_size_gbs        = [10]
+  per_database_settings_min_capacities   = [0]
+  per_database_settings_max_capacities   = [1]
 
   sql_databases_enabled     = true
   sql_database_count        = 4
