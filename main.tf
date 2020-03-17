@@ -45,7 +45,7 @@ resource "azurerm_sql_database" "this" {
   edition                          = element(var.sql_database_editions, count.index)
   collation                        = element(var.sql_database_create_modes, count.index) == "Default" ? "SQL_LATIN1_GENERAL_CP1_CI_AS" : element(var.sql_database_collation, count.index)
   max_size_bytes                   = element(var.sql_database_create_modes, count.index) == "Default" ? element(var.sql_database_max_size_bytes, count.index) : ""
-  requested_service_objective_id   = element(var.sql_database_editions, count.index) != "Basic" ? element(var.sql_database_requested_service_objective_id, count.index) : null
+  requested_service_objective_id   = element(var.sql_database_requested_service_objective_id_enabled, count.index) != false ? element(var.sql_database_requested_service_objective_id, count.index) : null
   requested_service_objective_name = element(var.sql_database_requested_service_objective_name, count.index)
   source_database_deletion_date    = element(var.sql_database_create_modes, count.index) == "PointInTimeRestore" ? element(var.sql_source_database_deletion_dates, count.index) : var.sql_source_database_default_deletion_date
   elastic_pool_name                = element(var.sql_database_elastic_pool_names, count.index)

@@ -99,12 +99,13 @@ module "example" {
   sql_database_names        = ["tftest1${random_string.this.result}", "tftest2${random_string.this.result}", "tftest3${random_string.this.result}", "tftest4${random_string.this.result}"]
   sql_database_server_names = ["tftest1${random_string.this.result}", "tftest1${random_string.this.result}", "tftest3${random_string.this.result}", "tftest3${random_string.this.result}"]
 
-  sql_failover_group_enabled      = true
-  sql_failover_group_count        = 2
-  sql_failover_group_names        = ["tftestfg1${random_string.this.result}", "tftestfg2${random_string.this.result}"]
-  sql_failover_group_server_names = ["tftest1${random_string.this.result}", "tftest3${random_string.this.result}"]
-  sql_database_id_start_indexes   = [0, 2]
-  sql_database_id_end_indexes     = [2, 4]
+  sql_failover_group_enabled                          = true
+  sql_failover_group_count                            = 2
+  sql_database_requested_service_objective_id_enabled = [true]
+  sql_failover_group_names                            = ["tftestfg1${random_string.this.result}", "tftestfg2${random_string.this.result}"]
+  sql_failover_group_server_names                     = ["tftest1${random_string.this.result}", "tftest3${random_string.this.result}"]
+  sql_database_id_start_indexes                       = [0, 2]
+  sql_database_id_end_indexes                         = [2, 4]
 
   partner_servers_ids                      = ["tftest4${random_string.this.result}", "tftest2${random_string.this.result}"]
   read_write_failover_policy_modes         = ["Automatic"]
