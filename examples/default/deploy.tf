@@ -94,10 +94,11 @@ module "example" {
   per_database_settings_min_capacities   = [0]
   per_database_settings_max_capacities   = [1]
 
-  sql_databases_enabled     = true
-  sql_database_count        = 2
-  sql_database_names        = ["tftest${random_string.this.result}", "tftest2${random_string.this.result}"]
-  sql_database_server_names = ["tftest1${random_string.this.result}"]
+  sql_databases_enabled                               = true
+  sql_database_count                                  = 2
+  sql_database_requested_service_objective_id_enabled = [true]
+  sql_database_names                                  = ["tftest${random_string.this.result}", "tftest2${random_string.this.result}"]
+  sql_database_server_names                           = ["tftest1${random_string.this.result}"]
 
   sql_vnet_rule_enabled                     = true
   sql_vnet_rule_names                       = ["tftest-rule${random_string.this.result}"]

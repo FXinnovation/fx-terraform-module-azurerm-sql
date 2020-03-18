@@ -141,6 +141,12 @@ variable "sql_database_max_size_bytes" {
   default     = [""]
 }
 
+variable "sql_database_requested_service_objective_id_enabled" {
+  description = "Boolean flag which descibes whether to enable the service objective ID or not."
+  default     = [false]
+  type        = list(bool)
+}
+
 variable "sql_database_requested_service_objective_id" {
   description = "A list of GUID/UUID corresponding to a configured Service Level Objective for the Azure SQL database which can be used to configure a performance level.The default is for `West Us` location. Please check https://docs.microsoft.com/en-us/cli/azure/sql/db?view=azure-cli-latest#az-sql-db-list-editions link for the supported GUIDS in respective locations."
   type        = list(string)
