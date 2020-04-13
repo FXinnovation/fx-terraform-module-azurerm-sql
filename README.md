@@ -8,16 +8,23 @@ See `examples` folders for usage of this module.
 - when cretaing the SQL databases from .bacpac file and new database at same time. Create databases with import file first and then create new databases.
 
 <!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+## Requirements
+
+| Name | Version |
+|------|---------|
+| terraform | >= 0.12 |
+| azurerm | >= 2.0.0 |
+
 ## Providers
 
 | Name | Version |
 |------|---------|
-| azurerm | >= 1.36.0, < 2.0.0 |
+| azurerm | >= 2.0.0 |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:-----:|
+|------|-------------|------|---------|:--------:|
 | enabled | Enable or disable module | `bool` | `true` | no |
 | identity\_type | Specifies the identity type of the SQL server. At this time the only allowed value is `SystemAssigned`. | `string` | `"SystemAssigned"` | no |
 | identity\_type\_enabled | Boolean flag which describes whether or not to enabled the identity block | `list(bool)` | <pre>[<br>  false<br>]</pre> | no |
